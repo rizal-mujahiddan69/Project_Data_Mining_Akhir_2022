@@ -4,3 +4,6 @@ Yang Dikerjakan Oleh
 2. Nadira Nazla (G64190035)
 3. Rizal Mujahiddan (G64190069)
 4. Muhammad Akmal Khairussalam
+
+
+Dengan dataset https://www.kaggle.com/datasets/mitishaagarwal/patient
