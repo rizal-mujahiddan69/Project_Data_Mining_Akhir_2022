@@ -13,3 +13,7 @@ kolom_NA <- kolom_NA %>%
   filter(freq > 0) %>% 
   mutate(percen_freq = freq / ukuran_data[1] * 100)
 print(kolom_NA)
+
+kolom_delete <- kolom_NA %>% filter(percen_freq >5)
+kolom_delete
+
