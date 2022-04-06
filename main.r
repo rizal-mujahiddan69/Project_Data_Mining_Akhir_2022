@@ -71,9 +71,6 @@ for(kolomku in kolom_NA_cat_factor){
 }
 
 
-
-
-
 # for(kolomku in kolom_NA_cat){
 #   data[[kolomku]][is.na(data[[kolomku]])] = as.numeric(names(sort(-table(data[[kolomku]])))[1])
 # }
