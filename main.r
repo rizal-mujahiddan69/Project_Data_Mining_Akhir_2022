@@ -1,11 +1,9 @@
 library(tidyverse)
 library(dplyr)
-library(naniar)
-library(mice)
-library(missForest)
 library(rpart)
 library(rpart.plot)
 library(caret)
+
 
 data <- read.csv("dataset.csv")
 ukuran_data <- dim(data)
