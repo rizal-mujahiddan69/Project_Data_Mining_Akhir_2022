@@ -4,9 +4,11 @@ library(rpart)
 library(rpart.plot)
 library(caret)
 
-
 data <- read.csv("dataset.csv")
 ukuran_data <- dim(data)
+
+
+# Imputation
 
 # Check column if have NA's
 kolom_NA <- data.frame(as.list(colSums(is.na(data))))
@@ -72,14 +74,13 @@ for(kolomku in kolom_NA_cat_factor){
 }
 
 
-# for(kolomku in kolom_NA_cat){
-#   data[[kolomku]][is.na(data[[kolomku]])] = as.numeric(names(sort(-table(data[[kolomku]])))[1])
-# }
-
 data <- data %>% select(-c(encounter_id,patient_id,
                            hospital_id,icu_id))
 
 kol_char <- names(which(lapply(data,class)=="character"))
+
+
+# Transformation dataset
 
 for(kol in kol_char){
   mode_impute <- names(sort(-table(data[[kol]])))[1]
@@ -87,16 +88,15 @@ for(kol in kol_char){
    data[[kol]] <- as.factor(data[[kol]])
 }
 
-# Split training and test
 
 data$hospital_death <- as.factor(data$hospital_death)
 
 
-set.seed(1234)
-ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
-train <- data[ind == 1,]
-test <- data[ind == 2,]
-tree <- rpart(hospital_death ~ . , data = train)
-
-hasil_predict <- predict(tree,test,type="class")
-confusionMatrix(hasil_predict ,test$hospital_death)
+# set.seed(1234)
+# ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
+# train <- data[ind == 1,]
+# test <- data[ind == 2,]
+# tree <- rpart(hospital_death ~ . , data = train)
+# 
+# hasil_predict <- predict(tree,test,type="class")
+# confusionMatrix(hasil_predict ,test$hospital_death)
