@@ -74,13 +74,15 @@ for(kolomku in kolom_NA_cat_factor){
 }
 
 
+# Selecting Feature (Deleting id) because dont depedending for evaluation.
+
 data <- data %>% select(-c(encounter_id,patient_id,
                            hospital_id,icu_id))
 
 kol_char <- names(which(lapply(data,class)=="character"))
 
 
-# Transformation dataset
+# Imputation and Discrezation Dataset
 
 for(kol in kol_char){
   mode_impute <- names(sort(-table(data[[kol]])))[1]
@@ -88,8 +90,14 @@ for(kol in kol_char){
    data[[kol]] <- as.factor(data[[kol]])
 }
 
-
 data$hospital_death <- as.factor(data$hospital_death)
+
+
+# Real Feature Selection
+
+
+
+
 
 
 # set.seed(1234)
