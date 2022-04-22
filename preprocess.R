@@ -89,17 +89,10 @@ for(kol in kol_char){
    data[[kol]] <- replace(data[[kol]],data[[kol]]=="",mode_impute)
    data[[kol]] <- as.factor(data[[kol]])
 }
-
 data$hospital_death <- as.factor(data$hospital_death)
 
 
 # Real Feature Selection
-
-
-
-
-
-
 # set.seed(1234)
 # ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
 # train <- data[ind == 1,]

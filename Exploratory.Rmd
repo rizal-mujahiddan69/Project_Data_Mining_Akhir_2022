@@ -1,0 +1,48 @@
+---
+title: "Exploratory"
+author: "Rizal Mujahiddan"
+date: "4/22/2022"
+output:
+  pdf_document:
+    toc: true
+  html_document: default
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_format = "all") })
+---
+
+```{r setup, include=FALSE}
+source("preprocess.R")
+library(DT)
+library(viridis)
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+# Introduction
+## Data Awal
+
+```{r}
+data_head <-  head(data)
+DT::datatable(data_head,extensions = 'FixedColumns',
+              options = list(dom = 't',scrollX = TRUE,
+                             fixedColumns = list(leftColumns = 1)))
+```
+Jika anda menghitungnya, maka tabel ini memiliki 78 kolom dan kira kira 91713 baris. 
+```{r}
+names(data)
+```
+
+```{r}
+ggplot(data,aes(x=age,y=bmi,color=hospital_death)) + 
+  geom_point() + ggtitle("Relation between Age and Bmi") +
+  scale_color_viridis(discrete = TRUE, option = "D")
+
+```
+
+```{r}
+install.packages("viridis")
+```
+
+
+
+
