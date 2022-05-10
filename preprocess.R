@@ -7,7 +7,6 @@ library(caret)
 data <- read.csv("dataset.csv")
 ukuran_data <- dim(data)
 
-
 # Imputation
 
 # Check column if have NA's
@@ -21,7 +20,7 @@ colnames(kolom_NA) <- c("Nama_Kolom","freq")
 kolom_NA <- kolom_NA %>% 
               mutate(percen_freq = freq / ukuran_data[1] * 100) %>% 
               filter(freq > 0)
-#print(kolom_NA)
+print(kolom_NA)
 
 #percent missing value threshold = 10% (bennet 2001)
 #https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3701793/

@@ -1,0 +1,167 @@
+ encounter_id      patient_id      hospital_id         age             bmi       
+ Min.   :     1   Min.   :     1   Min.   :  2.0   Min.   :16.00   Min.   :14.85  
+ 1st Qu.: 32852   1st Qu.: 32830   1st Qu.: 47.0   1st Qu.:52.00   1st Qu.:23.64  
+ Median : 65665   Median : 65413   Median :109.0   Median :65.00   Median :27.66  
+ Mean   : 65606   Mean   : 65537   Mean   :105.7   Mean   :62.31   Mean   :29.19  
+ 3rd Qu.: 98342   3rd Qu.: 98298   3rd Qu.:161.0   3rd Qu.:75.00   3rd Qu.:32.93  
+ Max.   :131051   Max.   :131051   Max.   :204.0   Max.   :89.00   Max.   :67.81  
+                                                   NA's   :4228    NA's   :3429   
+ elective_surgery  ethnicity            gender              height     
+ Min.   :0.0000   Length:91713       Length:91713       Min.   :137.2  
+ 1st Qu.:0.0000   Class :character   Class :character   1st Qu.:162.5  
+ Median :0.0000   Mode  :character   Mode  :character   Median :170.1  
+ Mean   :0.1837                                         Mean   :169.6  
+ 3rd Qu.:0.0000                                         3rd Qu.:177.8  
+ Max.   :1.0000                                         Max.   :195.6  
+                                                        NA's   :1334   
+ icu_admit_source       icu_id      icu_stay_type        icu_type        
+ Length:91713       Min.   : 82.0   Length:91713       Length:91713      
+ Class :character   1st Qu.:369.0   Class :character   Class :character  
+ Mode  :character   Median :504.0   Mode  :character   Mode  :character  
+                    Mean   :508.4                                        
+                    3rd Qu.:679.0                                        
+                    Max.   :927.0                                        
+                                                                         
+ pre_icu_los_days        weight       apache_2_diagnosis apache_3j_diagnosis
+ Min.   :-24.94722   Min.   : 38.60   Min.   :101.0      Min.   :   0.01    
+ 1st Qu.:  0.03542   1st Qu.: 66.80   1st Qu.:113.0      1st Qu.: 203.01    
+ Median :  0.13889   Median : 80.30   Median :122.0      Median : 409.02    
+ Mean   :  0.83577   Mean   : 84.03   Mean   :185.4      Mean   : 558.22    
+ 3rd Qu.:  0.40903   3rd Qu.: 97.10   3rd Qu.:301.0      3rd Qu.: 703.03    
+ Max.   :159.09097   Max.   :186.00   Max.   :308.0      Max.   :2201.05    
+                     NA's   :2720     NA's   :1662       NA's   :1101       
+ apache_post_operative   arf_apache    gcs_eyes_apache gcs_motor_apache
+ Min.   :0.0000        Min.   :0.000   Min.   :1.000   Min.   :1.000   
+ 1st Qu.:0.0000        1st Qu.:0.000   1st Qu.:3.000   1st Qu.:6.000   
+ Median :0.0000        Median :0.000   Median :4.000   Median :6.000   
+ Mean   :0.2011        Mean   :0.028   Mean   :3.465   Mean   :5.471   
+ 3rd Qu.:0.0000        3rd Qu.:0.000   3rd Qu.:4.000   3rd Qu.:6.000   
+ Max.   :1.0000        Max.   :1.000   Max.   :4.000   Max.   :6.000   
+                       NA's   :715     NA's   :1901    NA's   :1901    
+ gcs_unable_apache gcs_verbal_apache heart_rate_apache intubated_apache   map_apache    
+ Min.   :0.0000    Min.   :1.000     Min.   : 30.00    Min.   :0.0000   Min.   : 40.00  
+ 1st Qu.:0.0000    1st Qu.:4.000     1st Qu.: 86.00    1st Qu.:0.0000   1st Qu.: 54.00  
+ Median :0.0000    Median :5.000     Median :104.00    Median :0.0000   Median : 67.00  
+ Mean   :0.0095    Mean   :3.995     Mean   : 99.71    Mean   :0.1512   Mean   : 88.02  
+ 3rd Qu.:0.0000    3rd Qu.:5.000     3rd Qu.:120.00    3rd Qu.:0.0000   3rd Qu.:125.00  
+ Max.   :1.0000    Max.   :5.000     Max.   :178.00    Max.   :1.0000   Max.   :200.00  
+ NA's   :1037      NA's   :1901      NA's   :878       NA's   :715      NA's   :994     
+ resprate_apache  temp_apache    ventilated_apache d1_diasbp_max    d1_diasbp_min  
+ Min.   : 4.00   Min.   :32.10   Min.   :0.0000    Min.   : 46.00   Min.   :13.00  
+ 1st Qu.:11.00   1st Qu.:36.20   1st Qu.:0.0000    1st Qu.: 75.00   1st Qu.:42.00  
+ Median :28.00   Median :36.50   Median :0.0000    Median : 86.00   Median :50.00  
+ Mean   :25.81   Mean   :36.41   Mean   :0.3257    Mean   : 88.49   Mean   :50.16  
+ 3rd Qu.:36.00   3rd Qu.:36.70   3rd Qu.:1.0000    3rd Qu.: 99.00   3rd Qu.:58.00  
+ Max.   :60.00   Max.   :39.70   Max.   :1.0000    Max.   :165.00   Max.   :90.00  
+ NA's   :1234    NA's   :4108    NA's   :715       NA's   :165      NA's   :165    
+ d1_diasbp_noninvasive_max d1_diasbp_noninvasive_min d1_heartrate_max d1_heartrate_min
+ Min.   : 46.00            Min.   :13.00             Min.   : 58      Min.   :  0.00  
+ 1st Qu.: 75.00            1st Qu.:42.00             1st Qu.: 87      1st Qu.: 60.00  
+ Median : 87.00            Median :50.00             Median :101      Median : 69.00  
+ Mean   : 88.61            Mean   :50.24             Mean   :103      Mean   : 70.32  
+ 3rd Qu.: 99.00            3rd Qu.:58.00             3rd Qu.:116      3rd Qu.: 81.00  
+ Max.   :165.00            Max.   :90.00             Max.   :177      Max.   :175.00  
+ NA's   :1040              NA's   :1040              NA's   :145      NA's   :145     
+   d1_mbp_max      d1_mbp_min     d1_mbp_noninvasive_max d1_mbp_noninvasive_min
+ Min.   : 60.0   Min.   : 22.00   Min.   : 60.0          Min.   : 22.00        
+ 1st Qu.: 90.0   1st Qu.: 55.00   1st Qu.: 90.0          1st Qu.: 55.00        
+ Median :102.0   Median : 64.00   Median :102.0          Median : 64.00        
+ Mean   :104.7   Mean   : 64.87   Mean   :104.6          Mean   : 64.94        
+ 3rd Qu.:116.0   3rd Qu.: 75.00   3rd Qu.:116.0          3rd Qu.: 75.00        
+ Max.   :184.0   Max.   :112.00   Max.   :181.0          Max.   :112.00        
+ NA's   :220     NA's   :220      NA's   :1479           NA's   :1479          
+ d1_resprate_max d1_resprate_min   d1_spo2_max      d1_spo2_min      d1_sysbp_max  
+ Min.   :14.00   Min.   :  0.00   Min.   :  0.00   Min.   :  0.00   Min.   : 90.0  
+ 1st Qu.:22.00   1st Qu.: 10.00   1st Qu.: 99.00   1st Qu.: 89.00   1st Qu.:130.0  
+ Median :26.00   Median : 13.00   Median :100.00   Median : 92.00   Median :146.0  
+ Mean   :28.88   Mean   : 12.85   Mean   : 99.24   Mean   : 90.45   Mean   :148.3  
+ 3rd Qu.:32.00   3rd Qu.: 16.00   3rd Qu.:100.00   3rd Qu.: 95.00   3rd Qu.:164.0  
+ Max.   :92.00   Max.   :100.00   Max.   :100.00   Max.   :100.00   Max.   :232.0  
+ NA's   :385     NA's   :385      NA's   :333      NA's   :333      NA's   :159    
+  d1_sysbp_min    d1_sysbp_noninvasive_max d1_sysbp_noninvasive_min  d1_temp_max   
+ Min.   : 41.00   Min.   : 90.0            Min.   : 41.03           Min.   :35.10  
+ 1st Qu.: 83.00   1st Qu.:130.0            1st Qu.: 84.00           1st Qu.:36.90  
+ Median : 96.00   Median :146.0            Median : 96.00           Median :37.11  
+ Mean   : 96.92   Mean   :148.2            Mean   : 96.99           Mean   :37.28  
+ 3rd Qu.:110.00   3rd Qu.:164.0            3rd Qu.:110.00           3rd Qu.:37.60  
+ Max.   :160.00   Max.   :232.0            Max.   :160.00           Max.   :39.90  
+ NA's   :159      NA's   :1027             NA's   :1027             NA's   :2324   
+  d1_temp_min    h1_diasbp_max    h1_diasbp_min    h1_diasbp_noninvasive_max
+ Min.   :31.89   Min.   : 37.00   Min.   : 22.00   Min.   : 37.00           
+ 1st Qu.:36.10   1st Qu.: 62.00   1st Qu.: 52.00   1st Qu.: 63.00           
+ Median :36.40   Median : 74.00   Median : 62.00   Median : 74.00           
+ Mean   :36.27   Mean   : 75.36   Mean   : 62.84   Mean   : 75.81           
+ 3rd Qu.:36.66   3rd Qu.: 86.00   3rd Qu.: 73.00   3rd Qu.: 87.00           
+ Max.   :37.80   Max.   :143.00   Max.   :113.00   Max.   :144.00           
+ NA's   :2324    NA's   :3619     NA's   :3619     NA's   :7350             
+ h1_diasbp_noninvasive_min h1_heartrate_max h1_heartrate_min   h1_mbp_max    
+ Min.   : 22.00            Min.   : 46.00   Min.   : 36.00   Min.   : 49.00  
+ 1st Qu.: 52.00            1st Qu.: 77.00   1st Qu.: 69.00   1st Qu.: 77.00  
+ Median : 62.00            Median : 90.00   Median : 82.00   Median : 90.00  
+ Mean   : 63.27            Mean   : 92.23   Mean   : 83.66   Mean   : 91.61  
+ 3rd Qu.: 74.00            3rd Qu.:106.00   3rd Qu.: 97.00   3rd Qu.:104.00  
+ Max.   :114.00            Max.   :164.00   Max.   :144.00   Max.   :165.00  
+ NA's   :7350              NA's   :2790     NA's   :2790     NA's   :4639    
+   h1_mbp_min    h1_mbp_noninvasive_max h1_mbp_noninvasive_min h1_resprate_max
+ Min.   : 32.0   Min.   : 49.00         Min.   : 32.00         Min.   :10.00  
+ 1st Qu.: 66.0   1st Qu.: 77.00         1st Qu.: 66.00         1st Qu.:18.00  
+ Median : 78.0   Median : 90.00         Median : 79.00         Median :21.00  
+ Mean   : 79.4   Mean   : 91.59         Mean   : 79.71         Mean   :22.63  
+ 3rd Qu.: 92.0   3rd Qu.:104.00         3rd Qu.: 92.00         3rd Qu.:26.00  
+ Max.   :138.0   Max.   :163.00         Max.   :138.00         Max.   :59.00  
+ NA's   :4639    NA's   :9084           NA's   :9084           NA's   :4357   
+ h1_resprate_min   h1_spo2_max      h1_spo2_min      h1_sysbp_max    h1_sysbp_min  
+ Min.   :  0.00   Min.   :  0.00   Min.   :  0.00   Min.   : 75.0   Min.   : 53.0  
+ 1st Qu.: 14.00   1st Qu.: 97.00   1st Qu.: 94.00   1st Qu.:113.0   1st Qu.: 98.0  
+ Median : 16.00   Median : 99.00   Median : 96.00   Median :131.0   Median :115.0  
+ Mean   : 17.21   Mean   : 98.05   Mean   : 95.17   Mean   :133.2   Mean   :116.4  
+ 3rd Qu.: 20.00   3rd Qu.:100.00   3rd Qu.: 99.00   3rd Qu.:150.0   3rd Qu.:134.0  
+ Max.   :189.00   Max.   :100.00   Max.   :100.00   Max.   :223.0   Max.   :194.0  
+ NA's   :4357     NA's   :4185     NA's   :4185     NA's   :3611    NA's   :3611   
+ h1_sysbp_noninvasive_max h1_sysbp_noninvasive_min d1_glucose_max  d1_glucose_min 
+ Min.   : 75.0            Min.   : 53.0            Min.   : 73.0   Min.   : 33.0  
+ 1st Qu.:113.0            1st Qu.: 98.0            1st Qu.:117.0   1st Qu.: 91.0  
+ Median :130.0            Median :115.0            Median :150.0   Median :107.0  
+ Mean   :133.1            Mean   :116.5            Mean   :174.6   Mean   :114.4  
+ 3rd Qu.:150.0            3rd Qu.:134.0            3rd Qu.:201.0   3rd Qu.:131.0  
+ Max.   :223.0            Max.   :195.0            Max.   :611.0   Max.   :288.0  
+ NA's   :7341             NA's   :7341             NA's   :5807    NA's   :5807   
+ d1_potassium_max d1_potassium_min apache_4a_hospital_death_prob
+ Min.   :2.800    Min.   :2.400    Min.   :-1.000               
+ 1st Qu.:3.800    1st Qu.:3.600    1st Qu.: 0.020               
+ Median :4.200    Median :3.900    Median : 0.050               
+ Mean   :4.252    Mean   :3.935    Mean   : 0.087               
+ 3rd Qu.:4.600    3rd Qu.:4.300    3rd Qu.: 0.130               
+ Max.   :7.000    Max.   :5.800    Max.   : 0.990               
+ NA's   :9585     NA's   :9585     NA's   :7947                 
+ apache_4a_icu_death_prob      aids         cirrhosis      diabetes_mellitus
+ Min.   :-1.000           Min.   :0e+00   Min.   :0.0000   Min.   :0.0000   
+ 1st Qu.: 0.010           1st Qu.:0e+00   1st Qu.:0.0000   1st Qu.:0.0000   
+ Median : 0.020           Median :0e+00   Median :0.0000   Median :0.0000   
+ Mean   : 0.044           Mean   :9e-04   Mean   :0.0157   Mean   :0.2252   
+ 3rd Qu.: 0.060           3rd Qu.:0e+00   3rd Qu.:0.0000   3rd Qu.:0.0000   
+ Max.   : 0.970           Max.   :1e+00   Max.   :1.0000   Max.   :1.0000   
+ NA's   :7947             NA's   :715     NA's   :715      NA's   :715      
+ hepatic_failure immunosuppression    leukemia         lymphoma     
+ Min.   :0.000   Min.   :0.0000    Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.000   1st Qu.:0.0000    1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.000   Median :0.0000    Median :0.0000   Median :0.0000  
+ Mean   :0.013   Mean   :0.0262    Mean   :0.0071   Mean   :0.0041  
+ 3rd Qu.:0.000   3rd Qu.:0.0000    3rd Qu.:0.0000   3rd Qu.:0.0000  
+ Max.   :1.000   Max.   :1.0000    Max.   :1.0000   Max.   :1.0000  
+ NA's   :715     NA's   :715       NA's   :715      NA's   :715     
+ solid_tumor_with_metastasis apache_3j_bodysystem apache_2_bodysystem    X          
+ Min.   :0.0000              Length:91713         Length:91713        Mode:logical  
+ 1st Qu.:0.0000              Class :character     Class :character    NA's:91713    
+ Median :0.0000              Mode  :character     Mode  :character                  
+ Mean   :0.0206                                                                     
+ 3rd Qu.:0.0000                                                                     
+ Max.   :1.0000                                                                     
+ NA's   :715                                                                        
+ hospital_death  
+ Min.   :0.0000  
+ 1st Qu.:0.0000  
+ Median :0.0000  
+ Mean   :0.0863  
+ 3rd Qu.:0.0000  
+ Max.   :1.0000  
