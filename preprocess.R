@@ -74,7 +74,7 @@ for(kolomku in kolom_NA_cat_factor){
 }
 
 
-# Selecting Feature (Deleting id) because dont depedending for evaluation.
+# Selecting Feature (Deleting id) because dont dependending for evaluation.
 
 data <- data %>% select(-c(encounter_id,patient_id,
                            hospital_id,icu_id))
@@ -89,9 +89,13 @@ for(kol in kol_char){
    data[[kol]] <- replace(data[[kol]],data[[kol]]=="",mode_impute)
    data[[kol]] <- as.factor(data[[kol]])
 }
-data$hospital_death <- as.factor(data$hospital_death)
+head(data)
 
+data <- data %>%
+mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
+                                  hospital_death == 1 ~ 'Death'))
 
+data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death"),labels = c("Survived","Death"))
 # Real Feature Selection
 # set.seed(1234)
 # ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))

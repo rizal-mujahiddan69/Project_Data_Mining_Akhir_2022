@@ -15,7 +15,6 @@ source("preprocess.R")
 library(DT)
 library(viridis)
 knitr::opts_chunk$set(echo = FALSE)
-
 ```
 
 # Introduction
