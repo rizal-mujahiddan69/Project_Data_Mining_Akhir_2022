@@ -6,6 +6,8 @@ library(caret)
 
 data <- read.csv("dataset.csv")
 ukuran_data <- dim(data)
+head_data <- head(data)
+write.csv(head_data,"head_data.csv")
 
 # Imputation
 
