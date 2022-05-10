@@ -10,7 +10,13 @@ test <- data[ind == 2,]
 
 tree.control <- rpart.control(minsplit = 100,cp=0.002)
 tree <- rpart(hospital_death ~ . , data = train,control = tree.control)
+
+# rplot.jpg
+jpeg("rplot.jpg", width = 600, height = 600)
 rpart.plot(tree)
+dev.off()
+
+# predict
 hasil_predict <- predict(tree,test,type="class")
 confusionMatrix(hasil_predict ,test$hospital_death)
 
