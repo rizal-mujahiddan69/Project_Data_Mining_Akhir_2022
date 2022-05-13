@@ -6,7 +6,7 @@ Tolong tambahin disini yaaa,terus gunakan tutorial markdown github di file [chea
 
 Berikut ini adalah list journal nya (penulisan APA Style) :
 1. Pelin, Bicen. (2018). Coopetitive innovation alliance performance: Alliance competence, alliance’s market orientation, and relational governance. Journal of Business Research, 79, 23-31. (contoh)
-2. asd
+2. Dash M, Liu H. (1997). Feature selection for classification. Intelligent Data Analysis, 1, 131-156.
 3. asd
 <br>
 ...
