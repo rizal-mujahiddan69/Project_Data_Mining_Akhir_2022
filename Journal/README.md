@@ -5,8 +5,7 @@ Oh iyanih, kalau bisa lu list jurnal yang lu masukkan kesini terus lu list yah o
 Tolong tambahin disini yaaa,terus gunakan tutorial markdown github di file [cheatsheet_md.pdf](https://github.com/rizal-mujahiddan69/Project_Data_Mining_Akhir_2022/blob/main/Journal/cheatsheet_md.pdf) <br>
 
 Berikut ini adalah list journal nya (penulisan APA Style) :
-1. Pelin, Bicen. (2018). Coopetitive innovation alliance performance: Alliance competence, alliance’s market orientation, and relational governance. Journal of Business Research, 79, 23-31. (contoh)
-2. Dash M, Liu H. (1997). Feature selection for classification. Intelligent Data Analysis, 1, 131-156.
-3. Janecek AGK, Gansterer WN, Demel MA, Ecker GF. (2008). On the relationship between feature selection and classification accuracy. JMLR: Workshop and Conference Proceedings, 4, 90-105.
+1. Dash M, Liu H. (1997). Feature selection for classification. Intelligent Data Analysis, 1, 131-156.
+2. Janecek AGK, Gansterer WN, Demel MA, Ecker GF. (2008). On the relationship between feature selection and classification accuracy. JMLR: Workshop and Conference Proceedings, 4, 90-105.
 <br>
 ...
