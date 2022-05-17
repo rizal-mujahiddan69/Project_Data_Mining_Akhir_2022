@@ -15,7 +15,7 @@ pre_icu_los_days,The length of stay of the patient between hospital admission an
 weight,The weight (body mass) of the person on unit admission
 apache_2_diagnosis,The APACHE II diagnosis for the ICU admission
 apache_3j_diagnosis,The APACHE III-J sub-diagnosis code which best describes the reason for the ICU admission
-apache_post_operative,The APACHE operative status; 1 for post-operative, 0 for non-operative
+apache_post_operative,The APACHE operative status; 1 for post-operative; 0 for non-operative
 arf_apache,Whether the patient had acute renal failure during the first 24 hours of their unit stay, defined as a 24 hour urine output <410ml, creatinine >=133 micromol/L and no chronic dialysis
 gcs_eyes_apache,The eye opening component of the Glasgow Coma Scale measured during the first 24 hours which results in the highest APACHE III score
 gcs_motor_apache,The motor component of the Glasgow Coma Scale measured during the first 24 hours which results in the highest APACHE III score
