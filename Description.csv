@@ -27,7 +27,7 @@ map_apache,The mean arterial pressure measured during the first 24 hours which r
 resprate_apache,The respiratory rate measured during the first 24 hours which results in the highest APACHE III score
 temp_apache,The temperature measured during the first 24 hours which results in the highest APACHE III score
 ventilated_apache,Whether the patient was invasively ventilated at the time of the highest scoring arterial blood gas using the oxygenation scoring algorithm; including any mode of positive pressure ventilation delivered through a circuit attached to an endo-tracheal tube or tracheostomy
-d1_diasbp_max,The patient's highest diastolic blood pressure during the first 24 hours of their unit stay, either non-invasively or invasively measured
+d1_diasbp_max,The patient's highest diastolic blood pressure during the first 24 hours of their unit stay; either non-invasively or invasively measured
 d1_diasbp_min,The patient's lowest diastolic blood pressure during the first 24 hours of their unit stay, either non-invasively or invasively measured
 d1_diasbp_noninvasive_max,The patient's highest diastolic blood pressure during the first 24 hours of their unit stay, non-invasively measured
 d1_diasbp_noninvasive_min,The patient's lowest diastolic blood pressure during the first 24 hours of their unit stay, non-invasively measured
