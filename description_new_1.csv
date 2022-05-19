@@ -72,11 +72,11 @@ d1_potassium_min,The lowest potassium concentration for the patient in their ser
 apache_4a_hospital_death_prob,The APACHE IVa probabilistic prediction of in-hospital mortality for the patient which utilizes the APACHE III score and other covariates, including diagnosis
 apache_4a_icu_death_prob,The APACHE IVa probabilistic prediction of in ICU mortality for the patient which utilizes the APACHE III score and other covariates, including diagnosis
 aids,Whether the patient has a definitive diagnosis of acquired immune deficiency syndrome (AIDS) (not HIV positive alone)
-cirrhosis,Whether the patient has a history of heavy alcohol use with portal hypertension and varices other causes of cirrhosis with evidence of portal hypertension and varices or biopsy proven cirrhosis This comorbidity does not apply to patients with a functioning liver transplant
-diabetes_mellitus,Whether the patient has been diagnosed with diabetes either juvenile or adult onset which requires medication
-hepatic_failure,Whether the patient has cirrhosis and additional complications including jaundice and ascites, upper GI bleeding hepatic encephalopathy or coma
-immunosuppression,Whether the patient has their immune system suppressed within six months prior to ICU admission for any of the following reasons; radiation therapy, chemotherapy use of non-cytotoxic immunosuppressive drugs high dose steroids (at least 03 mg/kg/day of methylprednisolone or equivalent for at least 6 months)
-leukemia,Whether the patient has been diagnosed with acute or chronic myelogenous leukemia acute or chronic lymphocytic leukemia or multiple myeloma
+cirrhosis,Whether the patient has a history of heavy alcohol use with portal hypertension and varices, other causes of cirrhosis with evidence of portal hypertension and varices or biopsy proven cirrhosis This comorbidity does not apply to patients with a functioning liver transplant
+diabetes_mellitus,Whether the patient has been diagnosed with diabetes, either juvenile or adult onset which requires medication
+hepatic_failure,Whether the patient has cirrhosis and additional complications including jaundice and ascites, upper GI bleeding, hepatic encephalopathy or coma
+immunosuppression,Whether the patient has their immune system suppressed within six months prior to ICU admission for any of the following reasons; radiation therapy, chemotherapy, use of non-cytotoxic immunosuppressive drugs high dose steroids (at least 03 mg/kg/day of methylprednisolone or equivalent for at least 6 months)
+leukemia,Whether the patient has been diagnosed with acute or chronic myelogenous leukemia, acute or chronic lymphocytic leukemia or multiple myeloma
 lymphoma,Whether the patient has been diagnosed with non-Hodgkin lymphoma
 solid_tumor_with_metastasis,Whether the patient has been diagnosed with any solid tumor carcinoma (including malignant melanoma) which has evidence of metastasis
 apache_3j_bodysystem,Admission diagnosis group for APACHE III
