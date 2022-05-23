@@ -100,10 +100,57 @@ head(data)
 data <- data %>%
 mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
                                   hospital_death == 1 ~ 'Death'))
-
 data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death"),labels = c("Survived","Death"))
+names(data)
 
 
+# feature engineering
+## averaging dataset
+data$d1_diasbp <- (data$d1_diasbp_min + 
+                     data$d1_diasbp_max)/2
+data$d1_diasbp_noninvasive <- (data$d1_diasbp_noninvasive_min + 
+                                 data$d1_diasbp_noninvasive_max)/2
+data$d1_heartrate <- (data$d1_heartrate_min + 
+                   data$d1_heartrate_max) / 2
+data$d1_mbp <- (data$d1_mbp_max + data$d1_mbp_min)/2
+data$d1_mbp_noninvasive <- (data$d1_mbp_noninvasive_max +
+                            data$d1_mbp_noninvasive_min)/2
+data$d1_glucose <- (data$d1_glucose_max + data$d1_glucose_min)/2
+data$d1_resprate <- (data$d1_resprate_min + data$d1_resprate_max)/2
+data$d1_sysbp <- (data$d1_sysbp_min + data$d1_sysbp_max)/2
+data$d1_sysbp_noninvasive <- (data$d1_sysbp_noninvasive_max + 
+                                data$d1_sysbp_noninvasive_min)/2
+data$d1_temp <- (data$d1_temp_min + data$d1_temp_max)/2
+data$h1_diasbp <- (data$h1_diasbp_max + data$h1_diasbp_min)/2
+data$h1_diasbp_noninvasive <- (data$h1_diasbp_noninvasive_min + 
+                                 data$h1_diasbp_noninvasive_max)/2
+data$h1_heartrate <- (data$h1_heartrate_min  + data$h1_heartrate_max)/2
+data$h1_mbp <- (data$h1_mbp_max + data$h1_mbp_min)/2
+data$h1_mbp_noninvasive <- (data$h1_mbp_noninvasive_max + 
+                              data$h1_mbp_noninvasive_min)/2
+data$h1_resprate <- (data$h1_resprate_min + data$h1_resprate_max)
+data$h1_spo2 <- (data$h1_spo2_min + data$h1_spo2_max)/2
+data$h1_sysbp <- (data$h1_sysbp_max + data$h1_sysbp_min)/2
+data$h1_sysbp_noninvasive <- (data$h1_sysbp_noninvasive_max + 
+                                data$h1_diasbp_noninvasive_min)/2
+
+
+data <- data %>% select(-c(d1_diasbp_min,d1_diasbp_max,
+                           d1_diasbp_noninvasive_max,d1_diasbp_noninvasive_min,
+                           d1_glucose_max,d1_glucose_min,
+                           d1_heartrate_max,d1_heartrate_min,
+                           d1_mbp_max,d1_mbp_min,d1_mbp_noninvasive_max,
+                           d1_mbp_min,d1_resprate_min,d1_resprate_max,
+                           d1_spo2_max,d1_spo2_min,d1_sysbp_max,d1_sysbp_min,
+                           d1_sysbp_max,d1_sysbp_min,d1_sysbp_noninvasive_max,
+                           d1_sysbp_noninvasive_min,d1_temp_max,d1_temp_min,
+                           h1_diasbp_max,h1_diasbp_min,h1_diasbp_noninvasive_max,
+                           h1_diasbp_noninvasive_min,h1_heartrate_max,h1_heartrate_min,
+                           h1_mbp_min,h1_mbp_max,h1_mbp_noninvasive_max,
+                           h1_mbp_noninvasive_min,h1_resprate_max,h1_resprate_min,
+                           h1_spo2_max,h1_spo2_min,h1_sysbp_max,h1_sysbp_min,
+                           h1_sysbp_noninvasive_min,h1_sysbp_noninvasive_max
+                           ))
 
 
 
@@ -141,3 +188,5 @@ data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death")
 # deltatime_pre <- current_1 - current_0
 # print("Preprocessing Time :")
 # print(deltatime_pre)
+
+names(data)
