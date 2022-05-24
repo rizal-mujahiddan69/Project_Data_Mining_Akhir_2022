@@ -1,0 +1,298 @@
+---
+title: "Code_All"
+author: "Rizal Mujahiddan"
+date: "5/24/2022"
+output: pdf_document
+---
+
+# Analysis Data with R
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import Library
+
+```{r}
+current_0 <- Sys.time()
+library(tidyverse)
+library(dplyr)
+library(rpart)
+library(rpart.plot)
+library(caret)
+library(caTools)
+library(earth)
+library(mda)
+library(ROSE)
+library(DataExplorer)
+library(car)
+```
+
+## Import data from csv
+
+```{r}
+data <- read.csv("dataset.csv")
+ukuran_data <- dim(data)
+head_data <- head(data)
+write.csv(head_data,"head_data.csv")
+summary(data)
+```
+
+##  Handling Missing Value
+### Check Table frequency NA
+```{r}
+# Check column if have NA's
+kolom_NA <- data.frame(as.list(colSums(is.na(data))))
+kolom_NA <- as.data.frame(t(kolom_NA))
+kolom_NA <- data.frame(names = row.names(kolom_NA), kolom_NA)
+rownames(kolom_NA) <- NULL
+colnames(kolom_NA) <- c("Nama_Kolom","freq")
+
+# pipelining https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf
+kolom_NA <- kolom_NA %>% 
+              mutate(percen_freq = freq / ukuran_data[1] * 100) %>% 
+              filter(freq > 0)
+
+kolom_NA
+```
+
+### delete Column
+
+reference for deleting attribute in columns with threshold 10%:
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3701793/
+
+
+```{r}
+kolom_delete <- kolom_NA %>% filter(percen_freq > 10)
+kolom_NA <- kolom_NA %>%
+              filter(percen_freq <= 10)
+data <- data %>% select(-c(kolom_delete$Nama_Kolom))
+```
+
+
+### Divide column by datatype with variable
+```{r}
+# pembagian kolom NA berdasarkan tipe data 
+int_kat <- names(which(lapply(data[kolom_NA$Nama_Kolom],class) == "integer"))
+flo_num <- names(which(lapply(data[kolom_NA$Nama_Kolom],class) == "numeric"))
+
+kolom_NA_cat <- kolom_NA %>% filter(Nama_Kolom %in% int_kat) %>% select(Nama_Kolom)
+kolom_NA_cat <- kolom_NA_cat$Nama_Kolom
+
+kolom_NA_num <- kolom_NA %>% filter(Nama_Kolom %in% flo_num) %>% select(Nama_Kolom)
+kolom_NA_num <- kolom_NA_num$Nama_Kolom
+kolom_NA_num
+```
+```{r}
+kolom_NA_cat
+```
+### median numeric imputation
+```{r}
+for(kolomku in kolom_NA_num){
+  data[[kolomku]][is.na(data[[kolomku]])] = median(data[[kolomku]],na.rm=T)
+}
+
+kolom_NA_cat_factor <- c()
+kolom_NA_cat_int <- c()
+for(kolom in kolom_NA_cat){
+  banyak_unique <- length(unique(data[[kolom]]))
+  if(banyak_unique > 10){
+    kolom_NA_cat_int <- c(kolom_NA_cat_int,kolom)
+  } else{
+    kolom_NA_cat_factor <- c(kolom_NA_cat_factor,kolom)
+  }
+}
+kolom_NA_cat_factor
+```
+```{r}
+kolom_NA_cat_int
+```
+
+### median integer imputation
+```{r}
+for(kolomku in kolom_NA_cat_int){
+  data[[kolomku]][is.na(data[[kolomku]])] = median(data[[kolomku]],na.rm=T)
+}
+```
+
+### mode factor imputation
+```{r}
+for(kolomku in kolom_NA_cat_factor){
+  data[[kolomku]][is.na(data[[kolomku]])] = as.numeric(names(sort(-table(data[[kolomku]])))[1])
+  data[[kolomku]] <- as.factor(data[[kolomku]])
+}
+```
+
+### Selecting Feature (Deleting id) because dont dependending for evaluation.
+```{r}
+data <- data %>% select(-c(encounter_id,patient_id,
+                           hospital_id,icu_id))
+```
+
+### Factorizing Dataset
+```{r}
+kol_char <- names(which(lapply(data,class)=="character"))
+
+for(kol in kol_char){
+  mode_impute <- names(sort(-table(data[[kol]])))[1]
+   data[[kol]] <- replace(data[[kol]],data[[kol]]=="",mode_impute)
+   data[[kol]] <- as.factor(data[[kol]])
+}
+head(data)
+```
+```{r}
+data <- data %>%
+mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
+                                  hospital_death == 1 ~ 'Death'))
+data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death"),labels = c("Survived","Death"))
+str(data)
+```
+
+## feature engineering
+### averaging dataset
+```{r}
+data$d1_diasbp <- (data$d1_diasbp_min + 
+                     data$d1_diasbp_max)/2
+data$d1_diasbp_noninvasive <- (data$d1_diasbp_noninvasive_min + 
+                                 data$d1_diasbp_noninvasive_max)/2
+data$d1_heartrate <- (data$d1_heartrate_min + 
+                   data$d1_heartrate_max) / 2
+data$d1_mbp <- (data$d1_mbp_max + data$d1_mbp_min)/2
+data$d1_mbp_noninvasive <- (data$d1_mbp_noninvasive_max +
+                            data$d1_mbp_noninvasive_min)/2
+data$d1_glucose <- (data$d1_glucose_max + data$d1_glucose_min)/2
+data$d1_resprate <- (data$d1_resprate_min + data$d1_resprate_max)/2
+data$d1_sysbp <- (data$d1_sysbp_min + data$d1_sysbp_max)/2
+data$d1_sysbp_noninvasive <- (data$d1_sysbp_noninvasive_max + 
+                                data$d1_sysbp_noninvasive_min)/2
+data$d1_temp <- (data$d1_temp_min + data$d1_temp_max)/2
+data$h1_diasbp <- (data$h1_diasbp_max + data$h1_diasbp_min)/2
+data$h1_diasbp_noninvasive <- (data$h1_diasbp_noninvasive_min + 
+                                 data$h1_diasbp_noninvasive_max)/2
+data$h1_heartrate <- (data$h1_heartrate_min  + data$h1_heartrate_max)/2
+data$h1_mbp <- (data$h1_mbp_max + data$h1_mbp_min)/2
+data$h1_mbp_noninvasive <- (data$h1_mbp_noninvasive_max + 
+                              data$h1_mbp_noninvasive_min)/2
+data$h1_resprate <- (data$h1_resprate_min + data$h1_resprate_max)
+data$h1_spo2 <- (data$h1_spo2_min + data$h1_spo2_max)/2
+data$h1_sysbp <- (data$h1_sysbp_max + data$h1_sysbp_min)/2
+data$h1_sysbp_noninvasive <- (data$h1_sysbp_noninvasive_max + 
+                                data$h1_diasbp_noninvasive_min)/2
+
+
+data <- data %>% select(-c(d1_diasbp_min,d1_diasbp_max,
+                          d1_diasbp_noninvasive_max,
+                          d1_diasbp_noninvasive_min,
+                          d1_glucose_max,d1_glucose_min,
+                          d1_heartrate_max,d1_heartrate_min,
+                          d1_mbp_max,d1_mbp_min,
+                          d1_mbp_noninvasive_max,
+                          d1_mbp_min,d1_resprate_min,
+                          d1_resprate_max,
+                          d1_spo2_max,d1_spo2_min,
+                          d1_sysbp_max,d1_sysbp_min,
+                          d1_sysbp_max,d1_sysbp_min,
+                          d1_sysbp_noninvasive_max,
+                          d1_sysbp_noninvasive_min,
+                          d1_temp_max,d1_temp_min, h1_diasbp_max,
+                          h1_diasbp_min,h1_diasbp_noninvasive_max,
+                          h1_diasbp_noninvasive_min,
+                          h1_heartrate_max,h1_heartrate_min,
+                          h1_mbp_min,h1_mbp_max,h1_mbp_noninvasive_max,
+                          h1_mbp_noninvasive_min,
+                          h1_resprate_max,h1_resprate_min,
+                          h1_spo2_max,h1_spo2_min,
+                          h1_sysbp_max,h1_sysbp_min,
+                          h1_sysbp_noninvasive_min,
+                          h1_sysbp_noninvasive_max))
+names(data)
+
+```
+
+## Delete Multicollinearity 
+### singularities
+```{r}
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
+summary(model_logit)
+```
+ada attribute yang bernilai NA dikarenakan ada suatu Singularitas, atau kemungkinan ada suatu Multicollinearity
+
+### Dikarenakan adanya singularitas, maka ada Multicolinnearity
+```{r}
+data <- data %>% select(-c(apache_2_bodysystem))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
+summary(model_logit)
+```
+
+### Dihapus Variable yang bernilai
+```{r}
+data <- data %>% select(-c(d1_sysbp_noninvasive,apache_3j_diagnosis,
+                            d1_diasbp_noninvasive,d1_mbp_noninvasive,
+                            h1_mbp_noninvasive,h1_diasbp_noninvasive))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data1)
+summary(model_logit)
+
+df_vif <- vif(model_logit)
+df_vif <- as.data.frame(df_vif)
+
+colnames(df_vif) <- c("GVIF","Df","VIF")
+df_vif_fil <- df_vif %>% filter(VIF>=5)
+df_vif <- df_vif %>% arrange(VIF)
+df_vif
+```
+
+## Balancing Class
+```{r}
+N_min <- min(unname(table(data$hospital_death)))
+data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
+```
+
+## Splitting Data
+```{r}
+set.seed(1234)
+ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
+trainData <- data[ind == 1,]
+testData <- data[ind == 2,]
+trainData
+```
+
+## Model Evaluation
+
+### Training and Ploting error
+```{r}
+library(randomForest)
+
+trainData_x <- trainData %>% select(-c(hospital_death))
+trainData_y <- trainData$hospital_death
+
+classifier_RF = train(x = trainData_x,y = trainData_y)
+plot(classifier_RF)
+```
+
+### Plotting Variable Importance
+```{r}
+varImpPlot(classifier_RF)
+```
+
+
+### Predict & Evaluation
+```{r}
+testData_x <- testData %>% select(-c(hospital_death))
+testData_y <- testData %>% select(c(hospital_death))
+testData_y <- testData_y$hospital_death
+
+predict_y <- predict(classifier_RF,testData_x)
+predict_y <- as.vector(predict_y)
+predict_y <- factor(predict_y,levels = c("Survived","Death"))
+predict_y
+
+confusionMatrix(predict_y,testData_y)
+```
+
+## Time Limit
+```{r}
+current_2 <- Sys.time()
+deltatime_rpart <- current_2 - current_0
+print("Time Modelling :")
+print(deltatime_rpart)
+```

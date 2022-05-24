@@ -9,6 +9,10 @@ library(caTools)
 library(earth)
 library(mda)
 library(ROSE)
+library(DataExplorer)
+library(car)
+
+
 
 data <- read.csv("dataset.csv")
 ukuran_data <- dim(data)
@@ -152,26 +156,85 @@ data <- data %>% select(-c(d1_diasbp_min,d1_diasbp_max,
                            h1_sysbp_noninvasive_min,h1_sysbp_noninvasive_max
                            ))
 
+col_num_doub <- data[names(which(lapply(data,class) == "numeric"))]
+# abs(cor(col_num_doub))[
+
+corr_num   <- cor(col_num_doub)
+namaku_col <- names(col_num_doub)
 
 
-# N_min <- min(unname(table(data$hospital_death)))
-# data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
+
+
+colli = as.data.frame(which(abs(cor(col_num_doub)) == 1,arr.ind=TRUE))
+mat_colli <- colli %>% filter(row!=col)
+mat_colli <- mat_colli %>% mutate(row_num_doub=namaku_col[row],
+                                  col_num_doub=namaku_col[col])
+col_del <- union(mat_colli$row_num_doub , mat_colli$col_num_doub)
+col_del
+
+
+
+# singularities
+library(polycor)
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
+summary(model_logit)
+
+# Dikarenakan adanya singularitas, maka ada Multicolinnearitt
+data1 <- data %>% select(-c(apache_2_bodysystem))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data1)
+summary(model_logit)
+
+
+# Asumsi bahwa ada singularitas , berarti dapat disimpulkan ada multicollinearity
+data <- data %>% select(-c(apache_2_bodysystem))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
+summary(model_logit)
+
+# df_vif <- vif(model_logit)
+# df_vif <- as.data.frame(df_vif)
+# 
+# colnames(df_vif) <- c("GVIF","Df","VIF")
+# df_vif <- df_vif %>% filter(VIF>=5)
+# df_vif
+
+# penyeleksian agar tidak ada ke kolinearitasan
+data <- data %>% select(-c(d1_sysbp_noninvasive,apache_3j_diagnosis,
+                            d1_diasbp_noninvasive,d1_mbp_noninvasive,
+                            h1_mbp_noninvasive,h1_diasbp_noninvasive))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data1)
+summary(model_logit)
+
+df_vif <- vif(model_logit)
+df_vif <- as.data.frame(df_vif)
+
+colnames(df_vif) <- c("GVIF","Df","VIF")
+df_vif_fil <- df_vif %>% filter(VIF>=5)
+df_vif <- df_vif %>% arrange(VIF,)
+
+
+
+N_min <- min(unname(table(data$hospital_death)))
+data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
 
 # Splitting Data
-# set.seed(1234)
-# ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
-# trainData <- data[ind == 1,]
-# testData <- data[ind == 2,]
+set.seed(1234)
+ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
+trainData <- data[ind == 1,]
+testData <- data[ind == 2,]
 
 # feature selection 
+# FDA_Model <- train(hospital_death ~ . , data = trainData, method='fda')
 # FDA_Model <- train(hospital_death ~ . , data = trainData, method='fda')
 # FDA_Imp <- varImp(FDA_Model)
 # FDA_Model_Imp <- FDA_Imp$importance
 # FDA_Model_Imp <- FDA_Model_Imp %>% filter(Overall>0)
 # feature_selected <- rownames(FDA_Model_Imp)
+
 # feature_selected[8] <- substr(feature_selected[8],1,nchar(feature_selected[8])-1)
 # feature_selected[9] <- substr(feature_selected[9],1,nchar(feature_selected[9])-1)
 # feature_selected <- c(feature_selected,"hospital_death")
+# feature_selected
+
 # feature_selected <- gsub("`","",feature_selected)
 # feature_selected <- gsub("^(.*)\\d$","\\1",feature_selected)
 # feature_selected <- gsub("^(icu_[a-z|_]*)[A-Z].*$","\\1",feature_selected)

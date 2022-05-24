@@ -1,35 +1,26 @@
 source("preprocess.R")
+source("plotting_tree.R")
+library(randomForest)
 
-tree.control <- rpart.control(minsplit = 100,cp=0.002)
-tree <- rpart(hospital_death ~ . , data = trainData,control = tree.control)
+trainData_x <- trainData %>% select(-c(hospital_death))
+trainData_y <- trainData$hospital_death
 
-rpart.plot(tree)
+classifier_RF = train(x = trainData_x,y = trainData_y)
 
-# rplot.jpg
-jpeg("rplot.jpg", width = 700, height = 700)
-rpart.plot(tree)
-dev.off()
+plot(classifier_RF)
+varImpPlot(classifier_RF)
 
 # predict
-hasil_predict <- predict(tree,testData_sel,type="class")
-aaa <- confusionMatrix(hasil_predict ,testData$hospital_death)
-print(aaa)
-##bagan 2
+testData_x <- testData %>% select(-c(hospital_death))
+testData_y <- testData %>% select(c(hospital_death))
+testData_y <- testData_y$hospital_death
 
-# tree.control <- rpart.control(minsplit = 100,cp=0.002)
-# tree <- rpart(hospital_death ~ . , data = trainData_sel,control = tree.control)
-# 
-# # rplot.jpg
-# jpeg("rplot.jpg", width = 600, height = 600)
-# rpart.plot(tree)
-# dev.off()
-# 
-# # predict
-# hasil_predict <- predict(tree,testData_sel,type="class")
-# bbb <- confusionMatrix(hasil_predict ,testData_sel$hospital_death)
-# 
-# print(aaa)
-# print(bbb)
+predict_y <- predict(classifier_RF,testData_x)
+predict_y <- as.vector(predict_y)
+predict_y <- factor(predict_y,levels = c("Survived","Death"))
+predict_y
+
+confusionMatrix(predict_y,testData_y)
 
 
 # tree$control
