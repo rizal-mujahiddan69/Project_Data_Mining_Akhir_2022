@@ -252,12 +252,13 @@ summary(data)
 N_min <- min(unname(table(data$hospital_death)))
 data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min
                     ,seed=1234)$data
-=======
+```
+
 ## Balancing Class
 ```{r}
 N_min <- min(unname(table(data$hospital_death)))
 data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
->>>>>>> 301402e8b089ddbabf22d6cb396ba7b23d78558a
+
 ```
 
 ## Splitting Data
@@ -278,21 +279,14 @@ library(randomForest)
 trainData_x <- trainData %>% select(-c(hospital_death))
 trainData_y <- trainData$hospital_death
 
-<<<<<<< HEAD
 classifier_RF = randomForest(x = trainData_x,y = trainData_y)
 
-=======
-classifier_RF = train(x = trainData_x,y = trainData_y)
->>>>>>> 301402e8b089ddbabf22d6cb396ba7b23d78558a
+#classifier_RF = train(x = trainData_x,y = trainData_y)
 plot(classifier_RF)
 ```
 
 ### Plotting Variable Importance
-<<<<<<< HEAD
 ```{r,out.width="60%",out.height="500%"}
-=======
-```{r}
->>>>>>> 301402e8b089ddbabf22d6cb396ba7b23d78558a
 varImpPlot(classifier_RF)
 ```
 
