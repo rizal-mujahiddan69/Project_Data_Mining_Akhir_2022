@@ -26,6 +26,7 @@ library(mda)
 library(ROSE)
 library(DataExplorer)
 library(car)
+library(randomForest)
 ```
 
 ## Import data from csv
@@ -274,7 +275,7 @@ trainData
 
 ### Training and Ploting error
 ```{r}
-library(randomForest)
+
 
 trainData_x <- trainData %>% select(-c(hospital_death))
 trainData_y <- trainData$hospital_death
@@ -300,11 +301,8 @@ testData_y <- testData_y$hospital_death
 predict_y <- predict(classifier_RF,testData_x)
 predict_y <- as.vector(predict_y)
 predict_y <- factor(predict_y,levels = c("Survived","Death"))
-<<<<<<< HEAD
+
 # predict_y
-=======
-predict_y
->>>>>>> 301402e8b089ddbabf22d6cb396ba7b23d78558a
 
 confusionMatrix(predict_y,testData_y)
 ```
