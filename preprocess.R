@@ -9,6 +9,10 @@ library(caTools)
 library(earth)
 library(mda)
 library(ROSE)
+library(DataExplorer)
+library(car)
+
+
 
 data <- read.csv("dataset.csv")
 ukuran_data <- dim(data)
@@ -100,31 +104,137 @@ head(data)
 data <- data %>%
 mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
                                   hospital_death == 1 ~ 'Death'))
-
 data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death"),labels = c("Survived","Death"))
+names(data)
+
+
+# feature engineering
+## averaging dataset
+data$d1_diasbp <- (data$d1_diasbp_min + 
+                     data$d1_diasbp_max)/2
+data$d1_diasbp_noninvasive <- (data$d1_diasbp_noninvasive_min + 
+                                 data$d1_diasbp_noninvasive_max)/2
+data$d1_heartrate <- (data$d1_heartrate_min + 
+                   data$d1_heartrate_max) / 2
+data$d1_mbp <- (data$d1_mbp_max + data$d1_mbp_min)/2
+data$d1_mbp_noninvasive <- (data$d1_mbp_noninvasive_max +
+                            data$d1_mbp_noninvasive_min)/2
+data$d1_glucose <- (data$d1_glucose_max + data$d1_glucose_min)/2
+data$d1_resprate <- (data$d1_resprate_min + data$d1_resprate_max)/2
+data$d1_sysbp <- (data$d1_sysbp_min + data$d1_sysbp_max)/2
+data$d1_sysbp_noninvasive <- (data$d1_sysbp_noninvasive_max + 
+                                data$d1_sysbp_noninvasive_min)/2
+data$d1_temp <- (data$d1_temp_min + data$d1_temp_max)/2
+data$h1_diasbp <- (data$h1_diasbp_max + data$h1_diasbp_min)/2
+data$h1_diasbp_noninvasive <- (data$h1_diasbp_noninvasive_min + 
+                                 data$h1_diasbp_noninvasive_max)/2
+data$h1_heartrate <- (data$h1_heartrate_min  + data$h1_heartrate_max)/2
+data$h1_mbp <- (data$h1_mbp_max + data$h1_mbp_min)/2
+data$h1_mbp_noninvasive <- (data$h1_mbp_noninvasive_max + 
+                              data$h1_mbp_noninvasive_min)/2
+data$h1_resprate <- (data$h1_resprate_min + data$h1_resprate_max)
+data$h1_spo2 <- (data$h1_spo2_min + data$h1_spo2_max)/2
+data$h1_sysbp <- (data$h1_sysbp_max + data$h1_sysbp_min)/2
+data$h1_sysbp_noninvasive <- (data$h1_sysbp_noninvasive_max + 
+                                data$h1_diasbp_noninvasive_min)/2
+
+
+data <- data %>% select(-c(d1_diasbp_min,d1_diasbp_max,
+                           d1_diasbp_noninvasive_max,d1_diasbp_noninvasive_min,
+                           d1_glucose_max,d1_glucose_min,
+                           d1_heartrate_max,d1_heartrate_min,
+                           d1_mbp_max,d1_mbp_min,d1_mbp_noninvasive_max,
+                           d1_mbp_min,d1_resprate_min,d1_resprate_max,
+                           d1_spo2_max,d1_spo2_min,d1_sysbp_max,d1_sysbp_min,
+                           d1_sysbp_max,d1_sysbp_min,d1_sysbp_noninvasive_max,
+                           d1_sysbp_noninvasive_min,d1_temp_max,d1_temp_min,
+                           h1_diasbp_max,h1_diasbp_min,h1_diasbp_noninvasive_max,
+                           h1_diasbp_noninvasive_min,h1_heartrate_max,h1_heartrate_min,
+                           h1_mbp_min,h1_mbp_max,h1_mbp_noninvasive_max,
+                           h1_mbp_noninvasive_min,h1_resprate_max,h1_resprate_min,
+                           h1_spo2_max,h1_spo2_min,h1_sysbp_max,h1_sysbp_min,
+                           h1_sysbp_noninvasive_min,h1_sysbp_noninvasive_max
+                           ))
+
+col_num_doub <- data[names(which(lapply(data,class) == "numeric"))]
+# abs(cor(col_num_doub))[
+
+corr_num   <- cor(col_num_doub)
+namaku_col <- names(col_num_doub)
 
 
 
 
+colli = as.data.frame(which(abs(cor(col_num_doub)) == 1,arr.ind=TRUE))
+mat_colli <- colli %>% filter(row!=col)
+mat_colli <- mat_colli %>% mutate(row_num_doub=namaku_col[row],
+                                  col_num_doub=namaku_col[col])
+col_del <- union(mat_colli$row_num_doub , mat_colli$col_num_doub)
+col_del
 
-# N_min <- min(unname(table(data$hospital_death)))
-# data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
+
+
+# singularities
+library(polycor)
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
+summary(model_logit)
+
+# Dikarenakan adanya singularitas, maka ada Multicolinnearitt
+data1 <- data %>% select(-c(apache_2_bodysystem))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data1)
+summary(model_logit)
+
+
+# Asumsi bahwa ada singularitas , berarti dapat disimpulkan ada multicollinearity
+data <- data %>% select(-c(apache_2_bodysystem))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
+summary(model_logit)
+
+# df_vif <- vif(model_logit)
+# df_vif <- as.data.frame(df_vif)
+# 
+# colnames(df_vif) <- c("GVIF","Df","VIF")
+# df_vif <- df_vif %>% filter(VIF>=5)
+# df_vif
+
+# penyeleksian agar tidak ada ke kolinearitasan
+data <- data %>% select(-c(d1_sysbp_noninvasive,apache_3j_diagnosis,
+                            d1_diasbp_noninvasive,d1_mbp_noninvasive,
+                            h1_mbp_noninvasive,h1_diasbp_noninvasive))
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data1)
+summary(model_logit)
+
+df_vif <- vif(model_logit)
+df_vif <- as.data.frame(df_vif)
+
+colnames(df_vif) <- c("GVIF","Df","VIF")
+df_vif_fil <- df_vif %>% filter(VIF>=5)
+df_vif <- df_vif %>% arrange(VIF,)
+
+
+
+N_min <- min(unname(table(data$hospital_death)))
+data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
 
 # Splitting Data
-# set.seed(1234)
-# ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
-# trainData <- data[ind == 1,]
-# testData <- data[ind == 2,]
+set.seed(1234)
+ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
+trainData <- data[ind == 1,]
+testData <- data[ind == 2,]
 
 # feature selection 
+# FDA_Model <- train(hospital_death ~ . , data = trainData, method='fda')
 # FDA_Model <- train(hospital_death ~ . , data = trainData, method='fda')
 # FDA_Imp <- varImp(FDA_Model)
 # FDA_Model_Imp <- FDA_Imp$importance
 # FDA_Model_Imp <- FDA_Model_Imp %>% filter(Overall>0)
 # feature_selected <- rownames(FDA_Model_Imp)
+
 # feature_selected[8] <- substr(feature_selected[8],1,nchar(feature_selected[8])-1)
 # feature_selected[9] <- substr(feature_selected[9],1,nchar(feature_selected[9])-1)
 # feature_selected <- c(feature_selected,"hospital_death")
+# feature_selected
+
 # feature_selected <- gsub("`","",feature_selected)
 # feature_selected <- gsub("^(.*)\\d$","\\1",feature_selected)
 # feature_selected <- gsub("^(icu_[a-z|_]*)[A-Z].*$","\\1",feature_selected)
@@ -141,3 +251,5 @@ data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death")
 # deltatime_pre <- current_1 - current_0
 # print("Preprocessing Time :")
 # print(deltatime_pre)
+
+names(data)

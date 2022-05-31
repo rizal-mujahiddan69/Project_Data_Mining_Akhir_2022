@@ -1,3 +1,4 @@
+column,description
 encounter_id,Unique identifier associated with a patient unit stay
 patient_id,Unique identifier associated with a patient
 hospital_id,Unique identifier associated with a hospital
