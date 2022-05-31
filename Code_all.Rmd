@@ -225,7 +225,7 @@ model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
 summary(model_logit)
 ```
 
-### Dihapus Variable yang bernilai
+### Dihapus Atribut yang bernilai VIF lebih dari 5%
 ```{r}
 data <- data %>% select(-c(d1_sysbp_noninvasive,apache_3j_diagnosis,
                             d1_diasbp_noninvasive,d1_mbp_noninvasive,
@@ -242,7 +242,6 @@ df_vif <- df_vif %>% arrange(VIF)
 df_vif
 ```
 
-<<<<<<< HEAD
 ## Check data after Feature Selection
 ```{r}
 summary(data)
@@ -252,7 +251,6 @@ summary(data)
 ```{r}
 N_min <- min(unname(table(data$hospital_death)))
 data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
-
 ```
 
 ## Splitting Data
@@ -261,15 +259,13 @@ set.seed(1234)
 ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
 trainData <- data[ind == 1,]
 testData <- data[ind == 2,]
-trainData
+head(trainData,5)
 ```
 
 ## Model Evaluation
 
 ### Training and Ploting error
 ```{r}
-
-
 trainData_x <- trainData %>% select(-c(hospital_death))
 trainData_y <- trainData$hospital_death
 
