@@ -230,7 +230,7 @@ summary(model_logit)
 data <- data %>% select(-c(d1_sysbp_noninvasive,apache_3j_diagnosis,
                             d1_diasbp_noninvasive,d1_mbp_noninvasive,
                             h1_mbp_noninvasive,h1_diasbp_noninvasive))
-model_logit <- glm(hospital_death ~ .,family=binomial,data=data1)
+model_logit <- glm(hospital_death ~ .,family=binomial,data=data)
 summary(model_logit)
 
 df_vif <- vif(model_logit)
@@ -246,13 +246,6 @@ df_vif
 ## Check data after Feature Selection
 ```{r}
 summary(data)
-```
-
-## Balancing Class
-```{r}
-N_min <- min(unname(table(data$hospital_death)))
-data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min
-                    ,seed=1234)$data
 ```
 
 ## Balancing Class
@@ -306,6 +299,7 @@ predict_y <- factor(predict_y,levels = c("Survived","Death"))
 
 confusionMatrix(predict_y,testData_y)
 ```
+
 
 ## Time Limit
 ```{r}
