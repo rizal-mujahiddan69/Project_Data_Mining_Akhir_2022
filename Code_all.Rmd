@@ -27,6 +27,7 @@ library(ROSE)
 library(DataExplorer)
 library(car)
 library(randomForest)
+library(mlr)
 ```
 
 ## Import data from csv
@@ -253,14 +254,26 @@ N_min <- min(unname(table(data$hospital_death)))
 data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
 ```
 
+
 ## Splitting Data
 ```{r}
 set.seed(1234)
 ind <- sample(2, nrow(data), replace = T, prob = c(0.8, 0.2))
 trainData <- data[ind == 1,]
 testData <- data[ind == 2,]
+
+```
+
+### Train Data
+```{r}
 head(trainData,5)
 ```
+
+### Test Data
+```{r}
+head(testData ,5)
+```
+
 
 ## Model Evaluation
 
@@ -292,10 +305,61 @@ predict_y <- as.vector(predict_y)
 predict_y <- factor(predict_y,levels = c("Survived","Death"))
 
 # predict_y
-
 confusionMatrix(predict_y,testData_y)
 ```
 
+# Tune Hyperparameter
+```{r}
+ntreeku     <- c()
+mtryku      <- c()
+accuracyku  <- c()
+for(ntr in c(100,200,500,1000)){
+  for(mt in c(7)){
+    trainData_x <- trainData %>% select(-c(hospital_death))
+    trainData_y <- trainData$hospital_death
+    
+    classifier_RF = randomForest(x = trainData_x,y = trainData_y,
+                                 ntree=ntr,mtry = mt)
+    testData_x <- testData %>% select(-c(hospital_death))
+    testData_y <- testData %>% select(c(hospital_death))
+    testData_y <- testData_y$hospital_death
+    
+    predict_y <- predict(classifier_RF,testData_x)
+    predict_y <- as.vector(predict_y)
+    predict_y <- factor(predict_y,levels = c("Survived","Death"))
+    
+    # predict_y
+    acc <- confusionMatrix(predict_y,testData_y)$table
+    acc_c <- (acc[1,1] + acc[2,2])/sum(acc)
+    mtryku <- c(mtryku,mt)
+    accuracyku <- c(accuracyku,acc_c)
+    ntreeku <- c(ntreeku,ntr)
+  }
+}
+```
+
+```{r}
+# mtry Number of variables randomly sampled as candidates at each split. Note that the default values are different for classification (sqrt(p) where p is number of variables in x) and regression (p/3)
+table_hyper <- data.frame(ntreeku,mtryku,accuracyku)
+table_hyper
+```
+```{r}
+    trainData_x <- trainData %>% select(-c(hospital_death))
+    trainData_y <- trainData$hospital_death
+    
+    classifier_RF = randomForest(x = trainData_x,y = trainData_y,
+                                 ntree=500,mtry = 7)
+    testData_x <- testData %>% select(-c(hospital_death))
+    testData_y <- testData %>% select(c(hospital_death))
+    testData_y <- testData_y$hospital_death
+    
+    predict_y <- predict(classifier_RF,testData_x)
+    predict_y <- as.vector(predict_y)
+    predict_y <- factor(predict_y,levels = c("Survived","Death"))
+    
+    # predict_y
+confusionMatrix(predict_y,testData_y)
+```
 
 ## Time Limit
 ```{r}
