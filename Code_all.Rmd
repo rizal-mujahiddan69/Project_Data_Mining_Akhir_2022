@@ -40,6 +40,71 @@ write.csv(head_data,"head_data.csv")
 summary(data)
 ```
 
+## Exploring Data
+### Mengenai Dataset Itu Sendiri
+```{r}
+DataExplorer::plot_intro(data)
+```
+* Lebih banyak bersifat continous column
+* ada missing column seluruhnya
+* pada masing masing data, ada data yang missing
+
+
+
+### Density Plot
+```{r warning=FALSE}
+numeric_attr <- names(which(lapply(data,class)=="numeric"))
+for(i in numeric_attr){
+  print(ggplot(data,aes_string(x=i)) + 
+          geom_density() + 
+          geom_vline(xintercept = mean(data[[i]],na.rm = TRUE),color="red",
+                     linetype="dashed" )  +
+          ggtitle(paste("density plot ",i,sep="")))
+}
+```
+* Jika Diperhatikan, Banyak Sekali Data yang puncak densitynya tidak cocok dengan mean
+* Cenderung menjulur ke arah kanan maupun kiri, 
+* Distribusi tidak Normal
+* Kesimpulannya lebih baik digunakan **imputasi Median** dibandingkan **mean**
+
+### Boxplot
+
+```{r include=FALSE}
+data <- data %>%
+mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
+                                  hospital_death == 1 ~ 'Death'))
+data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death"),labels = c("Survived","Death"))
+str(data)
+```
+
+
+```{r warning=FALSE}
+for(i in numeric_attr){
+  print(ggplot(data,aes_string(x="hospital_death",y=i,fill="hospital_death")) +
+          geom_boxplot() + 
+          ggtitle(paste("box plot ",i,sep="")))
+}
+
+```
+* Jika Diperhatikan, Keseluruhan memiliki outlier . maka sudah dipastikan imputasi median Yang terbaik
+
+### Categoric Explore
+```{r}
+DataExplorer::plot_bar(data,nrow=2,ncol=2)
+```
+* Masih Ada NA
+
+### Plot correlation for discrete
+```{r}
+plot_correlation(data,type="discrete",
+                 theme_config = list(text=element_text(size=5),
+                                     axis.text.x=element_text(angle=90)))
+```
+
+* Hanya Sedikit yang berkorelasi ya . meski begitu, ada kemungkinan multikolinearitas disana ya
+
+
+
 ##  Handling Missing Value
 ### Check Table frequency NA
 ```{r}
@@ -143,11 +208,11 @@ for(kol in kol_char){
 head(data)
 ```
 ```{r}
-data <- data %>%
-mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
-                                  hospital_death == 1 ~ 'Death'))
-data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death"),labels = c("Survived","Death"))
-str(data)
+# data <- data %>%
+# mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
+#                                   hospital_death == 1 ~ 'Death'))
+# data$hospital_death <- factor(data$hospital_death,levels = c("Survived","Death"),labels = c("Survived","Death"))
+# str(data)
 ```
 
 ## feature engineering
