@@ -207,6 +207,14 @@ for(kol in kol_char){
 }
 head(data)
 ```
+
+## after imputation
+```{r,message=FALSE}
+plot_intro(data)
+create_report(data,output_file = "report_after_imputation.html",y="hospital_death")
+```
+
+
 ```{r}
 # data <- data %>%
 # mutate(hospital_death = case_when(hospital_death == 0 ~ 'Survived',
@@ -276,6 +284,14 @@ names(data)
 
 ```
 
+## after feature_engineering
+```{r message=FALSE}
+create_report(data,output_file = "report_after_feature_engineering.html",
+              y="hospital_death")
+```
+
+
+
 ## Delete Multicollinearity 
 ### singularities
 ```{r}
@@ -309,14 +325,17 @@ df_vif
 ```
 
 ## Check data after Feature Selection
-```{r}
+```{r message=FALSE}
+create_report(data,y="hospital_death",
+              output_file = "report_after_feature_selection.html")
 summary(data)
 ```
 
 ## Balancing Class
-```{r}
+```{r message=FALSE}
 N_min <- min(unname(table(data$hospital_death)))
 data <- ovun.sample(hospital_death ~ ., data=data,N=2*N_min ,seed=1234)$data
+create_report(data,y="hospital_death",output_file = "report_after_balancing.html")
 ```
 
 
