@@ -44,6 +44,7 @@ summary(data)
 ### Mengenai Dataset Itu Sendiri
 ```{r}
 DataExplorer::plot_intro(data)
+create_report(data,output_file="report_first.html")
 ```
 * Lebih banyak bersifat continous column
 * ada missing column seluruhnya
