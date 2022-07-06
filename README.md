@@ -8,5 +8,5 @@ Kelompok 5 Beranggotakan :
 
 
 Dengan dataset https://www.kaggle.com/datasets/mitishaagarwal/patient
-Dan Dengan PPT adalah https://docs.google.com/presentation/d/1DOnN2e41EppO4AJPaE-7D4ZwwM8ihVuo80BdTbTG2uE/edit#slide=id.g6b47115854_0_473
+Dan Dengan [PPT](Tugas%20Akhir%20Data%20Mining.pptx)
 dan dengan [laporan](Laporan%20Akhir%20Tugas%20Akhir%20Data%20Mining%20Genap%202021-2022.pdf)
